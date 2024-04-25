@@ -2,108 +2,112 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.util.Scanner;
+/*En esta clase se llevará a cabo el proceso de desencriptado de un texto recibido de un
+ archivo de texto, tiene un metodo en el se recibe el nombre del archivo encriptado por
+ parte del usuario, un metodo que va a capturar el texto contenido en el archivo,
+ otro metodo que se encargará de desencriptar el texto por medio de fuerza bruta y
+ otro metodo que detectará si el desencriptado dio información legible para ver el mensaje
+ oculto.*/
 
 public class Desencriptar {
-    private static boolean logrado = false;
-    private static int code = 0;
+    private static boolean desencriptadoLogrado = false;
+    private static int claveUsada = 0;
 
-    public static void menuInicio() {
+    public static void menuInicioDesencriptado() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Digite el nombre del archivo encriptado: ");
-        String nombre = sc.next();
-        capturarDatos(nombre);
+        String archivoEncriptado = sc.next();
+        capturarDatosEncriptadosDesdeArchivo(archivoEncriptado);
     }
 
-    private static void capturarDatos(String name) {
-
+    private static void capturarDatosEncriptadosDesdeArchivo(String nombreArchivo) {
         try {
-
-            Reader flujoEntrada = new FileReader(name);
+            Reader flujoEntrada = new FileReader(nombreArchivo);
             char[] buffer = new char[10];
-            String texto = "";
+            String textoEncriptado = "";
             while (flujoEntrada.read(buffer) != -1) {
-                for (char a : buffer) {
-                    texto = texto + (char) (a);
+                for (char iterador : buffer) {
+                    textoEncriptado = textoEncriptado + (char) (iterador);
                 }
             }
-            forzarDesencriptado(texto);
+            forzarDesencriptado(textoEncriptado);
             flujoEntrada.close();
         } catch (IOException e) {
             System.out.println("Archivo inválido");
         }
     }
 
-    private static void forzarDesencriptado(String texto) {
-        char[] letras = texto.toCharArray();
+    private static void forzarDesencriptado(String textoEncriptado) {
+        char[] caracteresEncriptados = textoEncriptado.toCharArray();
 
-        while ((logrado != true)&&(code<=128)) {
-            code++;
-            String cadenas = "";
-            for (char a : letras) {
-                a = (char) (a - code);
-                cadenas = cadenas + (char) (a);
+        while ((desencriptadoLogrado != true) && (claveUsada <= 128)) {
+            claveUsada++;
+            String cadenasTextoDesifrado = "";
+            for (char iterador : caracteresEncriptados) {
+                iterador = (char) (iterador - claveUsada);
+                cadenasTextoDesifrado = cadenasTextoDesifrado + (char) (iterador);
             }
-            detectarIdiomaEspaniol(cadenas);
+            detectarIdiomaEspaniol(cadenasTextoDesifrado);
         }
-        if(logrado=!true){
+        if (desencriptadoLogrado = !true) {
             System.out.println("no se logro desencriptar");
         }
     }
 
-    private static void detectarIdiomaEspaniol(String cadenas) {
+    private static void detectarIdiomaEspaniol(String cadenasTextoDesifrado) {
 
         int aciertos = 0;
 
-        if (cadenas.contains("de")) {
+        if (cadenasTextoDesifrado.contains("de")) {
             aciertos++;
         }
-        if (cadenas.contains("la")) {
+        if (cadenasTextoDesifrado.contains("la")) {
             aciertos++;
         }
-        if (cadenas.contains("que")) {
+        if (cadenasTextoDesifrado.contains("que")) {
             aciertos++;
         }
-        if (cadenas.contains("el")) {
+        if (cadenasTextoDesifrado.contains("el")) {
             aciertos++;
         }
-        if (cadenas.contains("en")) {
+        if (cadenasTextoDesifrado.contains("en")) {
             aciertos++;
         }
-        if (cadenas.contains("y")) {
+        if (cadenasTextoDesifrado.contains("y")) {
             aciertos++;
         }
-        if (cadenas.contains("a")) {
+        if (cadenasTextoDesifrado.contains("a")) {
             aciertos++;
         }
-        if (cadenas.contains("los")) {
+        if (cadenasTextoDesifrado.contains("los")) {
             aciertos++;
         }
-        if (cadenas.contains("se")) {
+        if (cadenasTextoDesifrado.contains("se")) {
             aciertos++;
         }
-        if (cadenas.contains("del")) {
+        if (cadenasTextoDesifrado.contains("del")) {
             aciertos++;
         }
-        if (cadenas.contains("las")) {
+        if (cadenasTextoDesifrado.contains("las")) {
             aciertos++;
         }
-        if (cadenas.contains("un")) {
+        if (cadenasTextoDesifrado.contains("un")) {
             aciertos++;
         }
-        if (cadenas.contains("por")) {
+        if (cadenasTextoDesifrado.contains("por")) {
             aciertos++;
         }
-        if (cadenas.contains("con")) {
+        if (cadenasTextoDesifrado.contains("con")) {
             aciertos++;
         }
-        if (cadenas.contains("no")) {
+        if (cadenasTextoDesifrado.contains("no")) {
             aciertos++;
         }
 
         if (aciertos > 5) {
-            System.out.println("\n" + cadenas
-                    + "\nClave:  " + code);
-            logrado = true;
+            System.out.println("\n" + cadenasTextoDesifrado
+                    + "\nClave:  " + claveUsada);
+            desencriptadoLogrado = true;
         }
     }
 }

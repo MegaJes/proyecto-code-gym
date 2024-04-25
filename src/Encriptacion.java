@@ -1,44 +1,47 @@
 import java.io.*;
 import java.util.Scanner;
+/*En esta clase se realiza la tarea de encriptar el texto proporcionado desde un archivo de
+ texto, posee un metodo para leer el nombre del archivo que ingresa el usuario desde la consola
+ otro metodo para encriptar los datos que contiene el archivo y
+ otro metodo para guardar el texto encriptado en un nuevo archivo*/
 
 public class Encriptacion {
-    private final static int CODE = 12;
-    private final static String newFile = "encriptado.txt";
+    private final static int CLAVE_DE_CIFRADO = 12;
+    private final static String nuevoArchivo = "encriptado.txt";
 
-    public static void menuInicio() {
+    public static void menuInicioEncriptacion() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Digite el nombre del archivo de texto: ");
-        String nombre = sc.next();
-        encriptarTexto(nombre);
+        String nombreArchivo = sc.next();
+        encriptarTexto(nombreArchivo);
 
     }
 
-    private static void encriptarTexto(String archivo) {
-
+    private static void encriptarTexto(String nombreArchivo) {
         try {
-            Reader flujoEntrada = new FileReader(archivo);
+            Reader flujoEntrada = new FileReader(nombreArchivo);
             char[] buffer = new char[10];
-            String texto = "";
+            String textoEncriptado = "";
             while (flujoEntrada.read(buffer) != -1) {
-                for (char a : buffer) {
-                    a = (char) (a + CODE);
-                    texto = texto + a;
+                for (char iterador : buffer) {
+                    iterador = (char) (iterador + CLAVE_DE_CIFRADO);
+                    textoEncriptado = textoEncriptado + iterador;
                 }
             }
-            crearArchivoEncriptado(texto);
+            crearArchivoEncriptado(textoEncriptado);
             flujoEntrada.close();
         } catch (IOException e) {
             System.out.println("Archivo inválido");
         }
     }
 
-    private static void crearArchivoEncriptado(String texto) {
+    private static void crearArchivoEncriptado(String textoEncriptado) {
         try {
-            Writer flujoSalida = new FileWriter(newFile);
+            Writer flujoSalida = new FileWriter(nuevoArchivo);
 
-            flujoSalida.write(texto.toCharArray());
+            flujoSalida.write(textoEncriptado.toCharArray());
 
-            System.out.println("Se completó el encriptado, archivo creado:\n" + newFile);
+            System.out.println("Se completó el encriptado, archivo creado:\n" + nuevoArchivo);
             flujoSalida.close();
         } catch (IOException e) {
             System.out.println("No se creo el archivo.");
