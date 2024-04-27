@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 public class Desencriptar {
     private static boolean desencriptadoLogrado = false;
-    private static int claveUsada = 0;
+    private static int claveUsada=0;
 
     public static void menuInicioDesencriptado() {
         Scanner sc = new Scanner(System.in);
@@ -39,6 +39,8 @@ public class Desencriptar {
 
     private static void forzarDesencriptado(String textoEncriptado) {
         char[] caracteresEncriptados = textoEncriptado.toCharArray();
+        desencriptadoLogrado=false;
+        claveUsada = 0;
 
         while ((desencriptadoLogrado != true) && (claveUsada <= 128)) {
             claveUsada++;
